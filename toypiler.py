@@ -1,4 +1,5 @@
 from tokenizer import tokenize
+from parser import Parser
 import re
 
 def parseTokenClasses(grammar):
@@ -22,7 +23,7 @@ def parseProductionRules(grammar):
 		nonterminals.append(symbol.strip())
 	print(nonterminals)
 
-	rules = {}
+	rules = {'START':[]}
 	rulesSection = rulesSection[rulesSection.find('>')+1:].strip().split('>')[:-1]
 	for rule in rulesSection:
 		symbol = rule[rule.find('<')+1:rule.find(':')].strip()
@@ -32,6 +33,8 @@ def parseProductionRules(grammar):
 			symbols = prod.strip().split(' ')
 			productions.append(symbols)
 		rules[symbol] = productions
+		rules['START'].append(symbol)
+
 	print(rules)
 	return (nonterminals, rules)
 
@@ -48,5 +51,7 @@ def main():
 	code = "4 + 2 + 4+ 4+6 +7 ++8"
 	(tokenClasses, rules) = parseGrammar("toypiler.grammar")
 	tokens = tokenize(code, tokenClasses)
+	parser = Parser(tokenClasses, rules)
+	parseResult = parser.parse(tokens)
 
 main()
