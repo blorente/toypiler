@@ -4,11 +4,10 @@ Tokens {
 }
 
 Rules {
-	<Nonterminals: Exp, Op>
+	<Nonterminals: Exp, Op, RExp>
 	
 
-	<Exp: INT Op Exp | EPS>
+	<Exp: INT RExp>
+	<RExp: Op INT RExp | EPS>
 	<Op: SUM>
 }
-
-some other stuff

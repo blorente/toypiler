@@ -33,7 +33,7 @@ def parseProductionRules(grammar):
 			symbols = prod.strip().split(' ')
 			productions.append(symbols)
 		rules[symbol] = productions
-		rules['START'].append(symbol)
+		rules['START'].append([symbol])
 
 	print(rules)
 	return (nonterminals, rules)
@@ -48,7 +48,7 @@ def parseGrammar(grammarFile):
 	return (tokens, rules)
 
 def main():
-	code = "4 + 2 + 4+ 4+6 +7 ++8"
+	code = "4 + 2 + 2"
 	(tokenClasses, rules) = parseGrammar("toypiler.grammar")
 	tokens = tokenize(code, tokenClasses)
 	parser = Parser(tokenClasses, rules)
