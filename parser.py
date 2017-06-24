@@ -7,6 +7,7 @@ class Parser:
 		self.rules = rules[1]
 		print(self.rules)
 		self.tokIndex = 0
+		self.ast = []
 
 	def parse(self, tokens):
 		print('PARSER ===============')
@@ -22,27 +23,31 @@ class Parser:
 		print('======================')
 
 	def parseRule(self, rule):
-		matched = False
+		node = []
 		for symbol in rule:
+			expr = []
 			if self.isTerminal(symbol):
 				print('Terminal symbol: '+symbol+ ' in rule ' + str(rule) + ', index: ' + str(self.tokIndex))
-				matched = self.match(symbol)
+				expr = self.match(symbol)
 			else:
 				print('Nonterminal symbol ' + str(symbol) + ' in rule ' + str(rule) + ', index: ' + str(self.tokIndex))
-				matchpart = False
+				goodalternative = False
 				alternatives = self.rules[symbol]
 				for alternative in alternatives:
 					tokIndex = self.tokIndex		
-					print('		Alternative: ' + str(alternative))
-					matchpart = self.parseRule(alternative)
-					if not matchpart:
+					print('	Alternative: ' + str(alternative))
+					expr = self.parseRule(alternative)
+					goodalternative = len(expr) > 0
+					if not goodalternative:
 						self.tokIndex = tokIndex
-				matched = matchpart
 
-			if not matched:
-				break
+			if len(expr) == 0:
+				return []
+			else:
+				node.append(expr)
 		
-		return matched
+		print('Node after parse %s' % str(node))
+		return node
 
 	def isTerminal(self, symbol):
 		for t in self.terminals:
@@ -51,10 +56,10 @@ class Parser:
 		return False
 	
 	def match(self, token):
-		if self.tokIndex >= len(self.tokens): return False
+		if self.tokIndex >= len(self.tokens): return []
 		if (self.tokens[self.tokIndex][0] == token) or token == 'EPS':
 			print('Match token ' + str(self.tokens[self.tokIndex]) + ' at index ' + str(self.tokIndex))
 			self.tokIndex += 1
-			return True
+			return [token]
 		else:
-			return False
+			return []

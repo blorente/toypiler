@@ -48,7 +48,7 @@ def parseGrammar(grammarFile):
 	return (tokens, rules)
 
 def main():
-	code = "4 + 2 + 2"
+	code = "4 + 2"
 	(tokenClasses, rules) = parseGrammar("toypiler.grammar")
 	tokens = tokenize(code, tokenClasses)
 	parser = Parser(tokenClasses, rules)
