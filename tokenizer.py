@@ -7,7 +7,6 @@ def tokenize(source, tokDefs):
 	source = source.replace(' ', '')
 	while len(source) != 0:
 		matched = False
-		print(source)
 		for tok in tokDefs:	
 			if not matched:
 				match = tokDefs[tok].match(source)

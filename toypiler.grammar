@@ -3,4 +3,12 @@ Tokens {
 	<SUM: \+>,
 }
 
+Rules {
+	<Nonterminals: Exp, Op>
+	
+
+	<Exp: INT Op Exp | EPS>
+	<Op: SUM>
+}
+
 some other stuff
