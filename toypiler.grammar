@@ -1,6 +1,7 @@
 Tokens {
 	<INT: [0-9]>,
 	<SUM: \+>,
+	<SUB: ->,
 }
 
 Rules {
@@ -8,5 +9,5 @@ Rules {
 	
 	<Exp: INT RExp>
 	<RExp: Op INT RExp | EPS>
-	<Op: SUM>
+	<Op: SUM | SUB>
 }
