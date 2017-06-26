@@ -1,7 +1,6 @@
 class Parser:
 	"""docstring for Parser"""
 	def __init__(self, terminals, rules):
-		super(Parser, self).__init__()
 		self.tokens = []
 		self.terminals = terminals
 		self.rules = rules[1]
@@ -12,10 +11,10 @@ class Parser:
 	def parse(self, tokens):
 		print('PARSER ===============')
 		self.tokens = tokens
-		result = False
+		result = []
 		tokIndex = self.tokIndex
 		for rule in self.rules['START']:
-			if not result:
+			if len(result) == 0:
 				self.tokIndex = tokIndex
 				result = self.parseRule(rule)
 				print('Finished trial with rule '+str(rule)+', result: '+str(result))
@@ -35,11 +34,13 @@ class Parser:
 				alternatives = self.rules[symbol]
 				for alternative in alternatives:
 					tokIndex = self.tokIndex		
-					print('	Alternative: ' + str(alternative))
-					expr = self.parseRule(alternative)
-					goodalternative = len(expr) > 0
+					altexpr = self.parseRule(alternative)
+					goodalternative = len(altexpr) > 0
 					if not goodalternative:
 						self.tokIndex = tokIndex
+					else:
+						expr = altexpr
+						break
 
 			if len(expr) == 0:
 				return []
@@ -56,8 +57,9 @@ class Parser:
 		return False
 	
 	def match(self, token):
+		if token == 'EPS': return [token]
 		if self.tokIndex >= len(self.tokens): return []
-		if (self.tokens[self.tokIndex][0] == token) or token == 'EPS':
+		if self.tokens[self.tokIndex][0] == token:
 			print('Match token ' + str(self.tokens[self.tokIndex]) + ' at index ' + str(self.tokIndex))
 			self.tokIndex += 1
 			return [token]

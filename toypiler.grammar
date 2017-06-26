@@ -6,7 +6,6 @@ Tokens {
 Rules {
 	<Nonterminals: Exp, Op, RExp>
 	
-
 	<Exp: INT RExp>
 	<RExp: Op INT RExp | EPS>
 	<Op: SUM>
